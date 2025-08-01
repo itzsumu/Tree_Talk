@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events | TreeTalk</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">Tree<span>Talk</span></a>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="post.html">Posts</a></li>
+                    <li><a href="events.html" class="active">Events</a></li>
+                    <li><a href="marketplace.html">Marketplace</a></li>
+                    <li><a href="profile.html">Profile</a></li>
+                    <li><a href="auth.html">Login/SignUp</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="events-hero py-2">
+            <h1>Upcoming Tree Events</h1>
+            <p class="mt-1">Join our community in tree planting, workshops, and conservation activities</p>
+        </section>
+
+        <section class="create-event py-2">
+            <h2>Create New Event</h2>
+            <form class="event-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="event-title">Event Title</label>
+                        <input type="text" id="event-title" placeholder="Enter event title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="event-date">Event Date</label>
+                        <input type="date" id="event-date" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="event-location">Location</label>
+                    <input type="text" id="event-location" placeholder="Enter event location" required>
+                </div>
+                <div class="form-group">
+                    <label for="event-description">Description</label>
+                    <textarea id="event-description" rows="4" placeholder="Describe your event..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="event-category">Category</label>
+                    <select id="event-category" required>
+                        <option value="">Select a category</option>
+                        <option value="planting">Tree Planting</option>
+                        <option value="workshop">Workshop</option>
+                        <option value="conservation">Conservation</option>
+                        <option value="social">Social Gathering</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="event-image">Event Image</label>
+                    <input type="file" id="event-image" accept="image/*">
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Create Event</button>
+                    <button type="reset" class="btn">Cancel</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="events-list py-2">
+            <!-- Events will be added here dynamically -->
+        </section>
+    </main>
+
+ <footer class="simple-footer">
+  <div class="container">
+    <div class="footer-box">
+      <h3>Connect With Us</h3>
+      <div class="contact-line">
+        <span class="contact-icon">📞</span>
+        <span>+8801747-525412</span>
+      </div>
+      <div class="contact-line">
+        <a href="mailto:sumaiya.islam1.cse@ulab.edu.bd" class="email-link">
+          <span class="contact-icon">📧</span>
+          <span>sumaiya.islam1.cse@ulab.edu.bd</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <script>
+        document.querySelector('.event-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const title = document.getElementById('event-title').value;
+            const date = document.getElementById('event-date').value;
+            const location = document.getElementById('event-location').value;
+            const description = document.getElementById('event-description').value;
+            const category = document.getElementById('event-category').value;
+            
+            // Format date for display
+            const formattedDate = new Date(date).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+            
+            // Get category label
+            const categoryLabel = document.getElementById('event-category').options[document.getElementById('event-category').selectedIndex].text;
+            
+            // Create new event card
+            const eventsList = document.querySelector('.events-list');
+            const newEvent = document.createElement('div');
+            newEvent.className = 'event-card mb-2';
+            newEvent.innerHTML = `
+                <img src="images/event-placeholder.jpg" alt="${title}" class="event-image">
+                <div class="event-details">
+                    <h3>${title}</h3>
+                    <div class="event-meta">
+                        <span class="event-category ${category}">${categoryLabel}</span>
+                        <span class="event-date">${formattedDate}</span>
+                    </div>
+                    <p class="event-location">📍 ${location}</p>
+                    <p class="event-description">${description}</p>
+                    <div class="event-actions">
+                        <button class="btn btn-primary interested-btn">Interested</button>
+                        <span class="attendees-count">0</span> attending
+                    </div>
+                </div>
+            `;
+            
+            // Insert new event at the top of the list
+            eventsList.insertBefore(newEvent, eventsList.firstChild);
+            
+            // Reset form
+            this.reset();
+            
+            // Show success message
+            alert('Event created successfully!');
+        });
+
+        // Handle interested button clicks
+        document.addEventListener('click', function(e) {
+            if (e.target && e.target.classList.contains('interested-btn')) {
+                const btn = e.target;
+                const attendeesCount = btn.nextElementSibling;
+                
+                if (!btn.classList.contains('interested-confirmed')) {
+                    // Increment count
+                    const currentCount = parseInt(attendeesCount.textContent);
+                    attendeesCount.textContent = currentCount + 1;
+                    
+                    // Update button state
+                    btn.textContent = 'Interested ✓';
+                    btn.classList.add('interested-confirmed');
+                    
+                    // Change button style
+                    btn.style.backgroundColor = '#2d6a4f';
+                    btn.style.cursor = 'default';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

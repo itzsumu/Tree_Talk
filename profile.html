@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile | TreeTalk</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">Tree<span>Talk</span></a>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="post.html">Posts</a></li>
+                    <li><a href="events.html">Events</a></li>
+                    <li><a href="marketplace.html">Marketplace</a></li>
+                    <li><a href="profile.html" class="active">Profile</a></li>
+                    <li><a href="auth.html" class="active">Login/SignUp</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+ <main class="container">
+        <section class="profile-section py-3">
+            <h1 class="profile-title">Your Profile</h1>
+            
+            <div class="profile-container">
+                <div class="profile-picture-container">
+                    <img src="images/profile-pic.jpg" alt="Profile Picture" class="profile-picture">
+                    <button class="btn btn-secondary change-picture-btn">Change Picture</button>
+                </div>
+                
+                <div class="profile-info">
+                    <div class="profile-field">
+                        <label>Username:</label>
+                        <span class="profile-value"></span>
+                    </div>
+                    
+                    <div class="profile-field">
+                        <label>Email:</label>
+                        <span class="profile-value"></span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="profile-settings">
+                <h2 class="settings-title">Settings</h2>
+                
+                <form class="settings-form">
+                    <div class="form-group">
+                        <label for="new-username">Change Username:</label>
+                        <input type="text" id="new-username" placeholder="New Username">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="new-password">Change Password:</label>
+                        <input type="password" id="new-password" placeholder="New Password">
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Update Profile</button>
+                        <a href="auth.html" class="btn btn-danger">Log Out</a>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+ <footer class="simple-footer">
+  <div class="container">
+    <div class="footer-box">
+      <h3>Connect With Us</h3>
+      <div class="contact-line">
+        <span class="contact-icon">📞</span>
+        <span>+8801747-525412</span>
+      </div>
+      <div class="contact-line">
+        <a href="mailto:sumaiya.islam1.cse@ulab.edu.bd" class="email-link">
+          <span class="contact-icon">📧</span>
+          <span>sumaiya.islam1.cse@ulab.edu.bd</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+     <script>
+        // Basic profile update functionality
+        document.querySelector('.settings-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const newUsername = document.getElementById('new-username').value;
+            if (newUsername) {
+                document.getElementById('username-display').textContent = newUsername;
+                document.getElementById('new-username').value = '';
+                alert('Username updated successfully!');
+            }
+            
+            // Password change logic would go here
+            // (in a real app, this would be handled server-side)
+        });
+
+        // Logout button functionality
+        document.querySelector('.btn-logout').addEventListener('click', function() {
+            if (confirm('Are you sure you want to log out?')) {
+                window.location.href = 'auth.html';
+            }
+        });
+    </script>
+</body>
+</html>

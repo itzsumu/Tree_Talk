@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Login/Signup | TreeTalk</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div class="auth-background"></div>
+
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">Tree<span>Talk</span></a>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="post.html">Posts</a></li>
+                    <li><a href="events.html">Events</a></li>
+                    <li><a href="marketplace.html">Marketplace</a></li>
+                    <li><a href="profile.html" class="active">Profile</a></li>
+                    <li><a href="auth.html">Login/SignUp</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="auth-page">
+        <section class="auth-container py-2">
+            <div class="auth-tabs">
+                <button class="tab-btn active" data-tab="login">Login</button>
+                <button class="tab-btn" data-tab="signup">Sign Up</button>
+            </div>
+
+            <div class="auth-content">
+                <div id="login" class="tab-content active">
+                    <h2>Login or Signup</h2>
+                    <form class="auth-form">
+                        <div class="form-group">
+                            <label for="login-email">Email:</label>
+                            <input type="email" id="login-email" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="login-password">Password:</label>
+                            <input type="password" id="login-password" required />
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Login</button>
+                        </div>
+                        <p>Don't have an account? <a href="#" onclick="switchTab('signup')">Sign up</a></p>
+                    </form>
+                </div>
+
+                <div id="signup" class="tab-content">
+                    <h2>Create an Account</h2>
+                    <form class="auth-form">
+                        <div class="form-group">
+                            <label for="signup-name">Full Name:</label>
+                            <input type="text" id="signup-name" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-email">Email:</label>
+                            <input type="email" id="signup-email" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-password">Password:</label>
+                            <input type="password" id="signup-password" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-confirm">Confirm Password:</label>
+                            <input type="password" id="signup-confirm" required />
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Sign Up</button>
+                        </div>
+                        <p>Already have an account? <a href="#" onclick="switchTab('login')">Login</a></p>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="simple-footer">
+  <div class="container">
+    <div class="footer-box">
+      <h3>Connect With Us</h3>
+      <div class="contact-line">
+        <span class="contact-icon">📞</span>
+        <span>+8801747-525412</span>
+      </div>
+      <div class="contact-line">
+        <a href="mailto:sumaiya.islam1.cse@ulab.edu.bd" class="email-link">
+          <span class="contact-icon">📧</span>
+          <span>sumaiya.islam1.cse@ulab.edu.bd</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <script>
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.tab).classList.add('active');
+            });
+        });
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelector(`.tab-btn[data-tab="${tabName}"]`).classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+        }
+    </script>
+</body>
+</html>
