@@ -3,51 +3,367 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Community Posts | TreeTalk</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Create Post | TreeTalk</title>
+    <style>
+        :root {
+            --primary-color: #4a6741;
+            --secondary-color: #8ba888;
+            --light-color: #f5f5f5;
+            --dark-color: #333;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background-color: #f9f9f9;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .py-2 { padding: 2rem 0; }
+        .py-3 { padding: 3rem 0; }
+        .mb-2 { margin-bottom: 2rem; }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .logo span {
+            color: #d4b483;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .nav-links a.active {
+            color: #d4b483;
+        }
+
+        /* Create Post Section */
+        .create-post-section {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 2rem;
+        }
+        
+        .section-title {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #555;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+        
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .file-input-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .file-input-label {
+            padding: 0.6rem 1.2rem;
+            background-color: #f0f0f0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .file-input-label:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .file-name {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        #post-image {
+            display: none;
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .btn {
+            padding: 0.8rem 2rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+        }
+        
+        .btn-primary:hover {
+            background-color: #3a5a40;
+        }
+        
+        .btn-secondary {
+            background-color: #f0f0f0;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #e0e0e0;
+        }
+
+        /* Posts Feed Styles - New Clean Style */
+        .posts-feed {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .post-card {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+            padding: 1rem 1.2rem;
+        }
+        
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .post-header img {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .post-username {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 0;
+        }
+        
+        .post-date {
+            display: block;
+            font-size: 0.85rem;
+            color: #777;
+        }
+        
+        .post-content {
+            margin: 0.5rem 0 1rem;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        
+        .post-location {
+            color: #777;
+            font-size: 0.9rem;
+            margin-top: 0.3rem;
+            font-style: italic;
+        }
+        
+        .post-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .action-btn {
+            padding: 0.4rem 0.8rem;
+            border: 1px solid #ccc;
+            background: #f8f8f8;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.2s;
+        }
+        
+        .action-btn:hover {
+            background: #eee;
+        }
+        
+        .comment-box input {
+            width: 100%;
+            padding: 0.6rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+        
+        /* Simple Footer Styles */
+.simple-footer {
+  background-color: #4a6741; /* Same green as header */
+  color: white;
+  padding: 20px 0;
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+.footer-box {
+  margin-bottom: 15px;
+}
+
+.footer-box h3 {
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .form-actions {
+                flex-direction: column;
+            }
+            .btn {
+                width: 100%;
+            }
+            .nav-links {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
 </head>
 <body>
-   <header>
+    <header>
         <div class="container">
             <nav>
                 <a href="index.html" class="logo">Tree<span>Talk</span></a>
                 <ul class="nav-links">
                     <li><a href="index.html">Home</a></li>
-                    <li><a href="post.html">Posts</a></li>
-                    <li><a href="events.html" class="active">Events</a></li>
+                    <li><a href="post.html" class="active">Posts</a></li>
+                    <li><a href="events.html">Events</a></li>
                     <li><a href="marketplace.html">Marketplace</a></li>
                     <li><a href="profile.html">Profile</a></li>
-                    <li><a href="auth.html">Log Out</a></li>
+                    <li><a href="auth.html">Log Out/SignUp</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
     <main class="container">
-        <div class="events-header">
-            <h1>TreeTalk</h1>
-            <h2>Upcoming Events</h2>
-        </div>
-        
-        <form class="create-event-form">
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="event-title">Event Title:</label>
-                    <input type="text" id="event-title" placeholder="Enter event title">
+        <section class="create-post-section py-3">
+            <h1 class="section-title">Create New Post</h1>
+            
+            <form class="post-form">
+                <div class="form-row">
+                    <div class="form-group">
+    <label for="post-title">Post Title</label>
+    <input type="text" id="post-title" placeholder="Enter post title" required>
+</div>
+<div class="form-group" style="margin-left: 20px;">
+    <label for="post-date">Post Date</label>
+    <input type="date" id="post-date" required>
+</div>
+
                 </div>
+              
                 <div class="form-group">
-                    <label for="event-date">Event Date:</label>
-                    <input type="date" id="event-date">
+                    <label for="post-description">Description</label>
+                    <textarea id="post-description" rows="5" placeholder="Describe your post..." required></textarea>
                 </div>
+                
                 <div class="form-group">
-                    <label for="event-location">Location:</label>
-                    <input type="text" id="event-location" placeholder="Enter location">
+                    <label for="post-image">Post Image (Optional)</label>
+                    <div class="file-input-container">
+                        <input type="file" id="post-image" accept="image/*">
+                        <label for="post-image" class="file-input-label">Choose file</label>
+                        <span class="file-name">No file chosen</span>
+                    </div>
                 </div>
-            </div>
-            <button type="submit" class="create-event-btn">Create Event</button>
-        </form>
-        
-     <footer class="simple-footer">
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Create Post</button>
+                    <button type="reset" class="btn btn-secondary">Cancel</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="posts-feed py-2">
+            <!-- Posts will appear here -->
+        </section>
+    </main>
+
+    <footer class="simple-footer">
   <div class="container">
     <div class="footer-box">
       <h3>Connect With Us</h3>
@@ -65,5 +381,52 @@
   </div>
 </footer>
 
+
+    <script>
+        document.getElementById('post-image').addEventListener('change', function(e) {
+            const fileName = e.target.files[0] ? e.target.files[0].name : 'No file chosen';
+            document.querySelector('.file-name').textContent = fileName;
+        });
+
+        document.querySelector('.post-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const title = document.getElementById('post-title').value || 'User';
+            const date = document.getElementById('post-date').value;
+            const description = document.getElementById('post-description').value;
+            const formattedDate = new Date(date).toLocaleString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: '2-digit'
+            });
+
+            const postsFeed = document.querySelector('.posts-feed');
+            const newPost = document.createElement('div');
+            newPost.className = 'post-card';
+            
+            newPost.innerHTML = `
+                <div class="post-header">
+                    <img src="https://via.placeholder.com/35" alt="User">
+                    <div>
+                        <div class="post-username">${title}</div>
+                        <span class="post-date">${formattedDate}</span>
+                    </div>
+                </div>
+                <div class="post-content">
+                    <p>${description}</p>
+                </div>
+                <div class="post-actions">
+                    <button class="action-btn like-btn">Like</button>
+                    <button class="action-btn email-btn">Email</button>
+                
+            `;
+            
+            postsFeed.insertBefore(newPost, postsFeed.firstChild);
+            this.reset();
+            document.querySelector('.file-name').textContent = 'No file chosen';
+        });
+    </script>
 </body>
 </html>
