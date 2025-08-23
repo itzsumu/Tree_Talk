@@ -470,6 +470,7 @@
             postsFeed.insertBefore(newPost, postsFeed.firstChild);
             this.reset();
             document.querySelector('.file-name').textContent = 'No file chosen';
+            setupLikeButtons(); // Setup like button for the new post
         });
 
         document.getElementById('add-post-btn').addEventListener('click', function() {
@@ -479,6 +480,26 @@
             addBtn.textContent = 'Create Post';
             addBtn.disabled = true; // Optional: disable button to prevent multiple clicks
         });
+
+        // Like button count logic
+function setupLikeButtons() {
+    document.querySelectorAll('.like-btn').forEach(btn => {
+        // Prevent multiple counters on same button
+        if (!btn.dataset.likeInitialized) {
+            btn.dataset.likeInitialized = "true";
+            btn.dataset.count = btn.dataset.count || "0";
+            btn.addEventListener('click', function () {
+                let count = parseInt(btn.dataset.count, 10) || 0;
+                count++;
+                btn.dataset.count = count;
+                btn.textContent = `Like (${count})`;
+            });
+        }
+    });
+}
+
+// Call on page load for default posts
+setupLikeButtons();
     </script>
 </body>
 </html>
