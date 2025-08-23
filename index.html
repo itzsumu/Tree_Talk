@@ -137,22 +137,38 @@
 
  <footer class="simple-footer">
   <div class="container">
-    <div class="footer-box">
-      <h3>Connect With Us</h3>
-      <div class="contact-line">
-        <span class="contact-icon">📞</span>
-        <span>+8801747-525412</span>
+    <div class="footer-box" style="text-align: center;">
+      <h3 style="margin-bottom: 18px;">Connect With Us</h3>
+      <div class="contact-line" style="margin-bottom: 18px;">
+        <span class="contact-icon" style="color:#ff69b4;font-size:1.5em;vertical-align:middle;">&#128222;</span>
+        <span style="margin-left:8px;font-size:1.15em;vertical-align:middle;">+8801747-525412</span>
       </div>
-      <div class="contact-line">
-        <a href="mailto:sumaiya.islam1.cse@ulab.edu.bd" class="email-link">
-          <span class="contact-icon">📧</span>
-          <span>rahat.parvez.cse@ulab.edu.bd</span>
-        </a>
-      </div>
+      <button 
+        onclick="window.location.href='mailto:sumaiya.islam1.cse@ulab.edu.bd';"
+        style="
+          background: #333;
+          border: none;
+          border-radius: 50%;
+          width: 56px;
+          height: 56px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          margin: 0 auto;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+          transition: background 0.2s;
+        "
+        aria-label="Email"
+      >
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+          <rect width="24" height="24" rx="12" fill="#333"/>
+          <path d="M6 8h12v8H6V8zm0 0l6 5 6-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+      </button>
     </div>
   </div>
 </footer>
 
 </body>
 </html>
-
