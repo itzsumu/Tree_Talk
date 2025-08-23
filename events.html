@@ -130,7 +130,6 @@
   </div>
 </footer>
 
-
     <script>
         // Toggle create event form
         document.getElementById('event-post-btn').addEventListener('click', function() {
@@ -147,6 +146,7 @@
             const location = document.getElementById('event-location').value;
             const description = document.getElementById('event-description').value;
             const category = document.getElementById('event-category').value;
+            const imageInput = document.getElementById('event-image');
             
             // Format date for display
             const formattedDate = new Date(date).toLocaleDateString('en-US', {
@@ -158,6 +158,25 @@
             // Get category label
             const categoryLabel = document.getElementById('event-category').options[document.getElementById('event-category').selectedIndex].text;
             
+            // Handle image upload
+            let imageSrc = 'images/event-placeholder.jpg'; // Default image
+            if (imageInput.files && imageInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imageSrc = e.target.result;
+                    createEventCard(title, formattedDate, location, description, category, categoryLabel, imageSrc);
+                }
+                reader.readAsDataURL(imageInput.files[0]);
+            } else {
+                createEventCard(title, formattedDate, location, description, category, categoryLabel, imageSrc);
+            }
+            
+            // Reset form
+            this.reset();
+        });
+
+        // Function to create event card
+        function createEventCard(title, formattedDate, location, description, category, categoryLabel, imageSrc) {
             // Create new event card
             const eventsList = document.querySelector('.events-list');
             const newEvent = document.createElement('div');
@@ -172,7 +191,7 @@
             newEvent.onmouseout = () => newEvent.style.boxShadow = "0 4px 16px rgba(44, 62, 80, 0.10)";
             newEvent.innerHTML = `
     <div style="display:flex;align-items:flex-start;gap:22px;padding:22px 22px 18px 22px;">
-        <img src="images/event-placeholder.jpg" alt="Event Image" class="event-image" style="width:130px;height:130px;object-fit:cover;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.07);flex-shrink:0;">
+        <img src="${imageSrc}" alt="Event Image" class="event-image" style="width:180px;height:180px;object-fit:cover;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.07);flex-shrink:0;">
         <div style="flex:1;">
             <div style="display:flex;align-items:center;gap:10px;">
                 <img src="images/user1.jpg" alt="User" class="avatar" style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid #b7e4c7;">
@@ -189,7 +208,7 @@
                 <span style="font-size:0.98em;color:#6c757d;">${formattedDate}</span>
             </div>
             <div class="event-actions" style="margin-top:14px;">
-                <button class="btn btn-primary interested-btn" style="background:#40916c;border:none;padding:7px 22px;border-radius:6px;font-weight:600;font-size:1em;transition:background 0.2s;">Interesting New</button>
+                <button class="btn btn-primary interested-btn" style="background:#40916c;border:none;padding:7px 22px;border-radius:6px;font-weight:600;font-size:1em;transition:background 0.2s;">Interested</button>
             </div>
         </div>
     </div>
@@ -198,24 +217,16 @@
             // Insert new event at the top of the list
             eventsList.insertBefore(newEvent, eventsList.firstChild);
             
-            // Reset form
-            this.reset();
-            
             // Show success message
             alert('Event created successfully!');
-        });
+        }
 
         // Handle interested button clicks
         document.addEventListener('click', function(e) {
             if (e.target && e.target.classList.contains('interested-btn')) {
                 const btn = e.target;
-                const attendeesCount = btn.nextElementSibling;
                 
                 if (!btn.classList.contains('interested-confirmed')) {
-                    // Increment count
-                    const currentCount = parseInt(attendeesCount.textContent);
-                    attendeesCount.textContent = currentCount + 1;
-                    
                     // Update button state
                     btn.textContent = 'Interested ✓';
                     btn.classList.add('interested-confirmed');
