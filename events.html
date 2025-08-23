@@ -24,12 +24,28 @@
     </header>
 
     <main class="container">
-        <section class="events-hero py-2">
-            <h1>Upcoming Tree Events</h1>
-            <p class="mt-1">Join our community in tree planting, workshops, and conservation activities</p>
-        </section>
+        <!-- Add Event Post Button centered and small -->
+        <div style="display: flex; justify-content: center; align-items: center; margin-top: 20px;">
+            <button id="event-post-btn"
+                class="btn btn-primary"
+                style="
+                    width: 140px;
+                    padding: 8px 0;
+                    font-size: 1em;
+                    border-radius: 7px;
+                    margin: 0 auto;
+                    display: block;
+                    background: #40916c;
+                    border: none;
+                    box-shadow: 0 2px 0 #b7e4c7;
+                    position: relative;
+                ">
+                Event Post
+            </button>
+        </div>
 
-        <section class="create-event py-2">
+        <!-- Create Event Form (hidden by default initially) -->
+        <section class="create-event py-2" id="create-event-section" style="display:none;">
             <h2>Create New Event</h2>
             <form class="event-form">
                 <div class="form-row">
@@ -65,9 +81,11 @@
                     <label for="event-image">Event Image</label>
                     <input type="file" id="event-image" accept="image/*">
                 </div>
-                <div class="form-actions">
-                    <button type="submit" class="btn btn-primary">Create Event</button>
-                    <button type="reset" class="btn">Cancel</button>
+                <div class="form-actions" style="display: flex; justify-content: center;">
+                    <button type="submit" class="btn btn-primary" style="width: 100px; min-width: 80px; max-width: 120px; padding: 6px 0; font-size: 1em;">
+                        Create Event
+                    </button>
+                    <button type="reset" class="btn" style="margin-left: 12px;">Cancel</button>
                 </div>
             </form>
         </section>
@@ -79,24 +97,47 @@
 
  <footer class="simple-footer">
   <div class="container">
-    <div class="footer-box">
-      <h3>Connect With Us</h3>
-      <div class="contact-line">
-        <span class="contact-icon">📞</span>
-        <span>+8801747-525412</span>
+    <div class="footer-box" style="text-align: center;">
+      <h3 style="margin-bottom: 18px;">Connect With Us</h3>
+      <div class="contact-line" style="margin-bottom: 18px;">
+        <span class="contact-icon" style="color:#ff69b4;font-size:1.5em;vertical-align:middle;">&#128222;</span>
+        <span style="margin-left:8px;font-size:1.15em;vertical-align:middle;">+8801747-525412</span>
       </div>
-      <div class="contact-line">
-        <a href="mailto:sumaiya.islam1.cse@ulab.edu.bd" class="email-link">
-          <span class="contact-icon">📧</span>
-          <span>rahat.parvez.cse@ulab.edu.bd</span>
-        </a>
-      </div>
+      <button 
+        onclick="window.location.href='mailto:sumaiya.islam1.cse@ulab.edu.bd';"
+        style="
+          background: #333;
+          border: none;
+          border-radius: 50%;
+          width: 56px;
+          height: 56px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          margin: 0 auto;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+          transition: background 0.2s;
+        "
+        aria-label="Email"
+      >
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+          <rect width="24" height="24" rx="12" fill="#333"/>
+          <path d="M6 8h12v8H6V8zm0 0l6 5 6-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+      </button>
     </div>
   </div>
 </footer>
 
 
     <script>
+        // Toggle create event form
+        document.getElementById('event-post-btn').addEventListener('click', function() {
+            const section = document.getElementById('create-event-section');
+            section.style.display = 'block'; // Always show, never hide
+        });
+
         document.querySelector('.event-form').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -121,22 +162,38 @@
             const eventsList = document.querySelector('.events-list');
             const newEvent = document.createElement('div');
             newEvent.className = 'event-card mb-2';
+            newEvent.style.boxShadow = "0 4px 16px rgba(44, 62, 80, 0.10)";
+            newEvent.style.background = "#fafdff";
+            newEvent.style.borderRadius = "14px";
+            newEvent.style.marginBottom = "32px";
+            newEvent.style.overflow = "hidden";
+            newEvent.style.transition = "box-shadow 0.2s";
+            newEvent.onmouseover = () => newEvent.style.boxShadow = "0 8px 24px rgba(44, 62, 80, 0.18)";
+            newEvent.onmouseout = () => newEvent.style.boxShadow = "0 4px 16px rgba(44, 62, 80, 0.10)";
             newEvent.innerHTML = `
-                <img src="images/event-placeholder.jpg" alt="${title}" class="event-image">
-                <div class="event-details">
-                    <h3>${title}</h3>
-                    <div class="event-meta">
-                        <span class="event-category ${category}">${categoryLabel}</span>
-                        <span class="event-date">${formattedDate}</span>
-                    </div>
-                    <p class="event-location">📍 ${location}</p>
-                    <p class="event-description">${description}</p>
-                    <div class="event-actions">
-                        <button class="btn btn-primary interested-btn">Interested</button>
-                        <span class="attendees-count">0</span> attending
-                    </div>
+    <div style="display:flex;align-items:flex-start;gap:22px;padding:22px 22px 18px 22px;">
+        <img src="images/event-placeholder.jpg" alt="Event Image" class="event-image" style="width:130px;height:130px;object-fit:cover;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.07);flex-shrink:0;">
+        <div style="flex:1;">
+            <div style="display:flex;align-items:center;gap:10px;">
+                <img src="images/user1.jpg" alt="User" class="avatar" style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid #b7e4c7;">
+                <div>
+                    <div class="event-username" style="font-weight:700;font-size:1.08em;color:#184d27;">User Name</div>
+                    <span class="event-date" style="font-size:0.97em;color:#5c7f67;">${formattedDate}</span>
+                    <span class="event-category ${category}" style="display:inline-block;margin-left:8px;background:#e6f4ea;color:#2d6a4f;padding:3px 12px;border-radius:6px;font-size:0.98em;font-weight:500;">${categoryLabel}</span>
                 </div>
-            `;
+            </div>
+            <h3 style="margin:14px 0 7px 0;font-size:1.35em;color:#1b4332;">${title}</h3>
+            <p class="event-description" style="margin-bottom:10px;color:#222;">${description}</p>
+            <div style="display:flex;align-items:center;gap:16px;">
+                <span class="event-location" style="font-size:1em;color:#40916c;">📍 ${location}</span>
+                <span style="font-size:0.98em;color:#6c757d;">${formattedDate}</span>
+            </div>
+            <div class="event-actions" style="margin-top:14px;">
+                <button class="btn btn-primary interested-btn" style="background:#40916c;border:none;padding:7px 22px;border-radius:6px;font-weight:600;font-size:1em;transition:background 0.2s;">Interesting New</button>
+            </div>
+        </div>
+    </div>
+`;
             
             // Insert new event at the top of the list
             eventsList.insertBefore(newEvent, eventsList.firstChild);
@@ -171,5 +228,4 @@
         });
     </script>
 </body>
-
 </html>
