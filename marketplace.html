@@ -29,12 +29,56 @@
             <p class="mt-1">Buy, sell, or trade plants, seeds, and gardening supplies with our community</p>
         </section>
 
-        <section class="marketplace-actions py-1">
-            <div class="search-bar">
+        <section class="marketplace-actions py-1" style="display:flex;flex-direction:column;align-items:center;">
+            <div class="search-bar" style="margin-bottom:12px;">
                 <input type="text" placeholder="Search for plants...">
                 <button class="btn">Search</button>
             </div>
-            <a href="#" class="btn btn-primary">List an Item</a>
+            <button id="list-item-btn"
+        class="btn btn-primary"
+        style="
+            width: 140px;
+            padding: 8px 0;
+            font-size: 1em;
+            border-radius: 6px;
+            margin: 0 auto;
+            display: block;
+            background: #40916c;
+            border: none;
+            box-shadow: 0 2px 0 #b7e4c7;
+            position: relative;
+        ">
+        List an Item
+        <span style="
+            display: block;
+            height: 2px;
+            width: 32px;
+            background: #38b000;
+            margin: 4px auto 0 auto;
+            border-radius: 2px;
+        "></span>
+    </button>
+        </section>
+
+        <!-- List Item Card (hidden by default) -->
+        <section id="list-item-section" style="display:none;max-width:420px;margin:24px auto 0 auto;">
+            <div class="product-card" style="box-shadow:0 4px 16px rgba(44,62,80,0.10);border-radius:14px;padding:18px 18px 14px 18px;background:#fafdff;">
+                <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
+                    <img src="images/user1.jpg" alt="User" style="width:44px;height:44px;border-radius:50%;object-fit:cover;">
+                    <div>
+                        <div style="font-weight:600;font-size:1.08em;">User Name</div>
+                        <span id="listing-date" style="font-size:0.97em;color:#5c7f67;"></span>
+                    </div>
+                </div>
+                <form id="list-item-form">
+                    <input type="text" id="product-name" placeholder="Product Name" required style="width:100%;margin-bottom:8px;padding:6px;border-radius:5px;border:1px solid #cce3de;">
+                    <textarea id="product-description" rows="3" placeholder="Description" required style="width:100%;margin-bottom:8px;padding:6px;border-radius:5px;border:1px solid #cce3de;"></textarea>
+                    <input type="file" id="product-image" accept="image/*" style="margin-bottom:8px;">
+                    <input type="text" id="product-price" placeholder="Price (e.g. BDT25.00)" required style="width:100%;margin-bottom:8px;padding:6px;border-radius:5px;border:1px solid #cce3de;">
+                    <input type="text" id="product-location" placeholder="Location" required style="width:100%;margin-bottom:8px;padding:6px;border-radius:5px;border:1px solid #cce3de;">
+                    <button type="submit" class="btn btn-primary" style="margin-top:6px;">Submit</button>
+                </form>
+            </div>
         </section>
 
         <section class="marketplace-categories py-1">
@@ -51,7 +95,7 @@
 
         <section class="product-listings py-2">
             <h2>Recent Listings</h2>
-            <div class="product-grid">
+            <div class="product-grid" id="product-grid">
                 <div class="product-card">
                     <img src="images/product1.jpg" alt="Monstera Plant">
                     <div class="product-info">
@@ -97,22 +141,98 @@
 
      <footer class="simple-footer">
   <div class="container">
-    <div class="footer-box">
-      <h3>Connect With Us</h3>
-      <div class="contact-line">
-        <span class="contact-icon">📞</span>
-        <span>+8801747-525412</span>
+    <div class="footer-box" style="text-align: center;">
+      <h3 style="margin-bottom: 18px;">Connect With Us</h3>
+      <div class="contact-line" style="margin-bottom: 18px;">
+        <span class="contact-icon" style="color:#ff69b4;font-size:1.5em;vertical-align:middle;">&#128222;</span>
+        <span style="margin-left:8px;font-size:1.15em;vertical-align:middle;">+8801747-525412</span>
       </div>
-      <div class="contact-line">
-        <a href="mailto:sumaiya.islam1.cse@ulab.edu.bd" class="email-link">
-          <span class="contact-icon">📧</span>
-          <span>rahat.parvez.cse@ulab.edu.bd</span>
-        </a>
-      </div>
+      <button 
+        onclick="window.location.href='mailto:sumaiya.islam1.cse@ulab.edu.bd';"
+        style="
+          background: #333;
+          border: none;
+          border-radius: 50%;
+          width: 56px;
+          height: 56px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          margin: 0 auto;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+          transition: background 0.2s;
+        "
+        aria-label="Email"
+      >
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+          <rect width="24" height="24" rx="12" fill="#333"/>
+          <path d="M6 8h12v8H6V8zm0 0l6 5 6-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+      </button>
     </div>
   </div>
 </footer>
 
-</body>
+<script>
+    // Show the List Item card when button is clicked
+    document.getElementById('list-item-btn').addEventListener('click', function() {
+        document.getElementById('list-item-section').style.display = 'block';
+        // Set current date and time
+        const now = new Date();
+        document.getElementById('listing-date').textContent = now.toLocaleString('en-US', {
+            year: 'numeric', month: 'short', day: 'numeric',
+            hour: '2-digit', minute: '2-digit'
+        });
+    });
 
+    // Handle form submission to add new product card
+    document.getElementById('list-item-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const name = document.getElementById('product-name').value;
+        const desc = document.getElementById('product-description').value;
+        const price = document.getElementById('product-price').value;
+        const location = document.getElementById('product-location').value;
+        const now = new Date();
+        const dateStr = now.toLocaleString('en-US', {
+            year: 'numeric', month: 'short', day: 'numeric',
+            hour: '2-digit', minute: '2-digit'
+        });
+
+        // Handle image
+        let imgSrc = "images/product1.jpg";
+        const fileInput = document.getElementById('product-image');
+        if (fileInput.files && fileInput.files[0]) {
+            imgSrc = URL.createObjectURL(fileInput.files[0]);
+        }
+
+        // Create new product card
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.innerHTML = `
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
+                <img src="images/user1.jpg" alt="User" style="width:36px;height:36px;border-radius:50%;object-fit:cover;">
+                <div>
+                    <div style="font-weight:600;font-size:1em;">User Name</div>
+                    <span style="font-size:0.93em;color:#5c7f67;">${dateStr}</span>
+                </div>
+            </div>
+            <img src="${imgSrc}" alt="${name}" style="width:100%;max-width:220px;height:120px;object-fit:cover;border-radius:8px;margin-bottom:8px;">
+            <div class="product-info">
+                <h3>${name}</h3>
+                <p class="price">${price}</p>
+                <p class="seller">${desc}</p>
+                <p class="location" style="color:#40916c;font-size:0.97em;">📍 ${location}</p>
+                <button class="btn btn-primary" style="margin-top:6px;">Contact</button>
+            </div>
+        `;
+        document.getElementById('product-grid').prepend(card);
+
+        // Hide form and reset
+        document.getElementById('list-item-section').style.display = 'none';
+        this.reset();
+    });
+</script>
+
+</body>
 </html>
