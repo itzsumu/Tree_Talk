@@ -6,7 +6,7 @@
     <title>Create Post | TreeTalk</title>
     <style>
         :root {
-            --primary-color: #4a6741;
+            --primary-color: #46653b; /* Updated to match button */
             --secondary-color: #8ba888;
             --light-color: #f5f5f5;
             --dark-color: #333;
@@ -270,7 +270,7 @@
         
         /* Simple Footer Styles */
 .simple-footer {
-  background-color: #4a6741; /* Same green as header */
+  background-color:  #46653b;; /* Same green as header */
   color: white;
   padding: 20px 0;
   text-align: center;
@@ -323,7 +323,7 @@
     <main class="container">
         <!-- Add Post Button centered in the middle -->
         <div style="display:flex;justify-content:center;align-items:center;margin-top:20px;">
-            <button id="add-post-btn" class="btn btn-primary" style="min-width:120px;">Add Post</button>
+            <button id="add-post-btn" class="btn btn-primary" style="min-width:120px;">Create Post</button>
         </div>
 
         <!-- Create Post Form (hidden by default) -->
@@ -437,6 +437,8 @@
             e.preventDefault();
             
             const description = document.getElementById('post-description').value;
+            const imageInput = document.getElementById('post-image');
+            const file = imageInput.files[0];
             const now = new Date();
             const formattedDate = now.toLocaleString('en-US', {
                 year: 'numeric',
@@ -449,28 +451,41 @@
             const postsFeed = document.querySelector('.posts-feed');
             const newPost = document.createElement('div');
             newPost.className = 'post-card';
-            
-            newPost.innerHTML = `
-                <div class="post-header">
-                    <img src="https://via.placeholder.com/35" alt="User">
-                    <div>
-                        <div class="post-username">User</div>
-                        <span class="post-date">${formattedDate}</span>
+
+            // Function to insert post HTML (with or without image)
+            function insertPost(imageURL = null) {
+                newPost.innerHTML = `
+                    <div class="post-header">
+                        <img src="https://via.placeholder.com/35" alt="User">
+                        <div>
+                            <div class="post-username">User</div>
+                            <span class="post-date">${formattedDate}</span>
+                        </div>
                     </div>
-                </div>
-                <div class="post-content">
-                    <p>${description}</p>
-                </div>
-                <div class="post-actions">
-                    <button class="action-btn like-btn">Like</button>
-                    <button class="action-btn email-btn">Email</button>
-                </div>
-            `;
-            
-            postsFeed.insertBefore(newPost, postsFeed.firstChild);
-            this.reset();
-            document.querySelector('.file-name').textContent = 'No file chosen';
-            setupLikeButtons(); // Setup like button for the new post
+                    <div class="post-content">
+                        <p>${description}</p>
+                        ${imageURL ? `<img src="${imageURL}" alt="Post Image" style="max-width:100%;margin-top:10px;border-radius:6px;">` : ''}
+                    </div>
+                    <div class="post-actions">
+                        <button class="action-btn like-btn">Like</button>
+                        <button class="action-btn email-btn">Email</button>
+                    </div>
+                `;
+                postsFeed.insertBefore(newPost, postsFeed.firstChild);
+                document.querySelector('.post-form').reset();
+                document.querySelector('.file-name').textContent = 'No file chosen';
+                setupLikeButtons();
+            }
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    insertPost(event.target.result);
+                };
+                reader.readAsDataURL(file);
+            } else {
+                insertPost();
+            }
         });
 
         document.getElementById('add-post-btn').addEventListener('click', function() {
@@ -500,6 +515,12 @@ function setupLikeButtons() {
 
 // Call on page load for default posts
 setupLikeButtons();
+
+    // Show create post section if URL has #create-post-section
+    if (window.location.hash === "#create-post-section") {
+        document.getElementById('create-post-section').style.display = 'block';
+        document.getElementById('add-post-btn').disabled = true;
+    }
     </script>
 </body>
 </html>
