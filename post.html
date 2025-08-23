@@ -321,27 +321,19 @@
     </header>
 
     <main class="container">
-        <section class="create-post-section py-3">
-            <h1 class="section-title">Create New Post</h1>
-            
-            <form class="post-form">
-                <div class="form-row">
-                    <div class="form-group">
-    <label for="post-title">Post Title</label>
-    <input type="text" id="post-title" placeholder="Enter post title" required>
-</div>
-<div class="form-group" style="margin-left: 20px;">
-    <label for="post-date">Post Date</label>
-    <input type="date" id="post-date" required>
-</div>
+        <!-- Add Post Button centered in the middle -->
+        <div style="display:flex;justify-content:center;align-items:center;margin-top:20px;">
+            <button id="add-post-btn" class="btn btn-primary" style="min-width:120px;">Add Post</button>
+        </div>
 
-                </div>
-              
+        <!-- Create Post Form (hidden by default) -->
+        <section class="create-post-section py-3" id="create-post-section" style="display:none;">
+            <h1 class="section-title">Create New Post</h1>
+            <form class="post-form">
                 <div class="form-group">
                     <label for="post-description">Description</label>
                     <textarea id="post-description" rows="5" placeholder="Describe your post..." required></textarea>
                 </div>
-                
                 <div class="form-group">
                     <label for="post-image">Post Image (Optional)</label>
                     <div class="file-input-container">
@@ -350,7 +342,6 @@
                         <span class="file-name">No file chosen</span>
                     </div>
                 </div>
-                
                 <div class="form-actions">
                     <button type="submit" class="btn btn-primary">Create Post</button>
                     <button type="reset" class="btn btn-secondary">Cancel</button>
@@ -359,7 +350,42 @@
         </section>
 
         <section class="posts-feed py-2">
-            <!-- Posts will appear here -->
+            <!-- Default Post 1 -->
+            <div class="post-card">
+                <div class="post-header">
+                    <img src="images/user1.jpg" alt="User">
+                    <div>
+                        <div class="post-username">TreeEnthusiast</div>
+                        <span class="post-date">December 29, 2024, 12:26 pm</span>
+                    </div>
+                </div>
+                <div class="post-content">
+                    <p>It's our final showcasing. It's the show time.</p>
+                </div>
+                <div class="post-actions">
+                    <button class="action-btn like-btn">Like</button>
+                    <button class="action-btn email-btn">Email</button>
+                </div>
+            </div>
+
+             <!-- Default Post 1 -->
+            <div class="post-card">
+                <div class="post-header">
+                    <img src="images/user1.jpg" alt="User">
+                    <div>
+                        <div class="post-username">TreeEnthusiast</div>
+                        <span class="post-date">December 29, 2024, 12:26 pm</span>
+                    </div>
+                </div>
+                <div class="post-content">
+                    <p>It's our final showcasing. It's the show time.</p>
+                </div>
+                <div class="post-actions">
+                    <button class="action-btn like-btn">Like</button>
+                    <button class="action-btn email-btn">Email</button>
+                </div>
+            </div>
+            <!-- Add more default posts as needed -->
         </section>
     </main>
 
@@ -367,15 +393,34 @@
   <div class="container">
     <div class="footer-box">
       <h3>Connect With Us</h3>
-      <div class="contact-line">
-        <span class="contact-icon">📞</span>
-        <span>+8801747-525412</span>
-      </div>
-      <div class="contact-line">
-        <a href="mailto:sumaiya.islam1.cse@ulab.edu.bd" class="email-link">
-          <span class="contact-icon">📧</span>
-          <span>rahat.parvez.cse@ulab.edu.bd</span>
-        </a>
+      <div class="contact-line" style="display: flex; flex-direction: column; align-items: center;">
+        <div style="margin-bottom: 10px;">
+          <span class="contact-icon">📞</span>
+          <span>+8801747-525412</span>
+        </div>
+        <button 
+          onclick="window.location.href='mailto:sumaiya.islam1.cse@ulab.edu.bd';"
+          style="
+            background: #333;
+            border: none;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+            transition: background 0.2s;
+            margin: 0 auto;
+          "
+          aria-label="Email"
+        >
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="12" fill="#333"/>
+            <path d="M6 8h12v8H6V8zm0 0l6 5 6-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </svg>
+        </button>
       </div>
     </div>
   </div>
@@ -391,10 +436,9 @@
         document.querySelector('.post-form').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const title = document.getElementById('post-title').value || 'User';
-            const date = document.getElementById('post-date').value;
             const description = document.getElementById('post-description').value;
-            const formattedDate = new Date(date).toLocaleString('en-US', {
+            const now = new Date();
+            const formattedDate = now.toLocaleString('en-US', {
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric',
@@ -410,7 +454,7 @@
                 <div class="post-header">
                     <img src="https://via.placeholder.com/35" alt="User">
                     <div>
-                        <div class="post-username">${title}</div>
+                        <div class="post-username">User</div>
                         <span class="post-date">${formattedDate}</span>
                     </div>
                 </div>
@@ -420,14 +464,21 @@
                 <div class="post-actions">
                     <button class="action-btn like-btn">Like</button>
                     <button class="action-btn email-btn">Email</button>
-                
+                </div>
             `;
             
             postsFeed.insertBefore(newPost, postsFeed.firstChild);
             this.reset();
             document.querySelector('.file-name').textContent = 'No file chosen';
         });
+
+        document.getElementById('add-post-btn').addEventListener('click', function() {
+            const section = document.getElementById('create-post-section');
+            const addBtn = document.getElementById('add-post-btn');
+            section.style.display = 'block';
+            addBtn.textContent = 'Create Post';
+            addBtn.disabled = true; // Optional: disable button to prevent multiple clicks
+        });
     </script>
 </body>
 </html>
-
